@@ -1,0 +1,63 @@
+<html>
+<head>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript">
+$(function() {
+	$('#asset-dropzone').on('drop', function(event) {
+		var file = event.originalEvent.dataTransfer.files[0];
+		var formData = new FormData();
+		formData.append('file', file);
+
+		$.ajax('/somewhere', {
+			method: 'POST',
+			contentType: false,
+			processData: false,
+			data:formData,
+			error: function(xhr, error) {
+			    $('#asset-dropzone').removeClass("dragging");
+				console.log(error);
+			},
+			success: function(response) {
+			    $('#asset-dropzone').removeClass("dragging");
+				console.log(response);
+			}
+		});
+        return false;
+	}).on('dragleave', function(event) {
+	    $('#asset-dropzone').toggleClass("dragging");
+        return false;
+	}).on('dragover', function(event) {
+        return false;
+	}).on('dragenter', function(event) {
+	    $('#asset-dropzone').toggleClass("dragging");
+        return false;
+	});
+});
+</script>
+	</script>
+	<style>
+	.asset-drop {
+		background-color: #EEEEEE;
+		text-align: center;
+		border: 5px dashed #EEEEEE;
+	}
+
+	.asset-drop:hover {
+		background-color: #AAAAAA;
+		border: 5px dashed #333333;
+	}
+
+	.dragging {
+		background-color: #AAAAAA;
+		border: 5px dashed #333333;
+	}
+	</style>
+	<head>
+	<body>
+		<div class="row">
+    		<div class="asset-drop" id="asset-dropzone" dropzone>
+				Drop File
+			</div>
+		</div>
+	</body>
+<html>
